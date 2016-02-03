@@ -1,3 +1,10 @@
+create database student;
+
+create table if not exist student_uet(id varchar(10) primary key, student_name varchar(30), university varchar(20));
+create table if not exist student_ulis(id varchar(10) primary key, student_name varchar(30), university varchar(20));
+create table if not exist student_hus(id varchar(10) primary key, student_name varchar(30), university varchar(20));
+create table if not exist student_ueb(id varchar(10) primary key, student_name varchar(30), university varchar(20));
+
 insert into student_uet(id, student_name, university) values ("09020232", "Le Van Hung", "UET");
 insert into student_uet(id, student_name, university) values ("09020210", "Nguyen Van A", "UET");
 insert into student_uet(id, student_name, university) values ("09020211", "Tran Thi B", "UET");
