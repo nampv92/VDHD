@@ -11,19 +11,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.sound.midi.Soundbank;
 
 /**
  *
  * @author hunglv
  */
 public class University extends Agent {
+    private Manager mangerGui;
     private ArrayList<Student> studentList;
     
     protected void setup(){
         studentList = new ArrayList<>();
+        mangerGui = new Manager(this);
+        mangerGui.setVisible(true);
         
         /**
          * Gets all data from database. Each database contain info with an university
@@ -36,8 +36,8 @@ public class University extends Agent {
 
         /* Create connection to databse */
         Connection connection = jdbc.getConnection();
-        String sql = null;
-        ResultSet result = null;
+        String sql;
+        ResultSet result;
         Student tmp_student;
 
         try {
@@ -134,13 +134,21 @@ public class University extends Agent {
             System.out.println("Can not create statement object");
             e.printStackTrace();
         }
-        
+        /*
         System.out.println("-------------------------");
         for(int i = 0; i < studentList.size(); i ++) {
             System.out.println(studentList.get(i).getId());
             System.out.println(studentList.get(i).getName());
             System.out.println(studentList.get(i).getUniversity());
         }
-        System.out.println("-------------------------");
+        System.out.println("-------------------------");*/
+    }
+    
+    public void setStudentList(ArrayList<Student> student_list) {
+        this.studentList = student_list;
+    }
+    
+    public ArrayList<Student> getStudentList() {
+        return this.studentList;
     }
 }
