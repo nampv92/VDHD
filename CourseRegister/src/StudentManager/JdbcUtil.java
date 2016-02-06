@@ -1,6 +1,5 @@
 package StudentManager;
 
-import examples.content.sfo.Main;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;

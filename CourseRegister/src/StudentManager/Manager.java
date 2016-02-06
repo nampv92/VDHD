@@ -9,9 +9,10 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,10 +29,11 @@ public class Manager extends JFrame {
     private String studentName, studentId, university;
     
     public Manager(University universityAgent) {
-        createUI(universityAgent);
+        this.universityAgent = universityAgent;
+        createUI();
     }
     
-    private void createUI(University universityAgent) {
+    private void createUI() {
         createLayout();
         setTitle(universityAgent.getLocalName() + " management");
         setSize(350, 130);
@@ -66,6 +68,7 @@ public class Manager extends JFrame {
                 tf_studentName.setText("");
                 
                 System.out.println(studentId + "   " + studentName);
+                updateData(studentId, studentName);
             }
         });
         
@@ -73,7 +76,48 @@ public class Manager extends JFrame {
         getContentPane().add(buttonPannel, BorderLayout.SOUTH);
     }
     
-    private void updateData(String studentId, String studentName, String university) {
+    private void updateData(String studentId, String studentName) {
+        JdbcUtil jdbc = JdbcUtil.getInstance();
+        jdbc.init();
+        Connection connection = jdbc.getConnection();
         
+        
+        String sql;
+        /* Update database */
+        if(universityAgent.getLocalName().compareTo("UET") == 0) {
+            sql = "insert into student_uet(id, student_name, university) values ('"
+                    + studentId + "', '" + studentName + "', '" + universityAgent.getLocalName() + "')";
+        }
+        else if (universityAgent.getLocalName().compareTo("ULIS") == 0) {
+            sql = "insert into student_ulis(id, student_name, university) values ('"
+                    + studentId + "', '" + studentName + "', '" + universityAgent.getLocalName() + "')";
+        }
+        else if (universityAgent.getLocalName().compareTo("HUS") == 0) {
+            sql = "insert into student_hus(id, student_name, university) values ('"
+                    + studentId + "', '" + studentName + "', '" + universityAgent.getLocalName() + "')";
+        }
+        else {
+            sql = "insert into student_ueb(id, student_name, university) values ('"
+                    + studentId + "', '" + studentName + "', '" + universityAgent.getLocalName() + "')";
+        }
+
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(sql);
+        }
+        catch (SQLException e) {
+            System.out.println("Can not insert data into database.");
+        }
+        
+        /* Update student list for each agent */
+        universityAgent.getStudentList().add(new Student(studentId, studentName, universityAgent.getLocalName()));
+            
+        /*System.out.println("-------------------------");
+        for(int i = 0; i < universityAgent.getStudentList().size(); i ++) {
+            System.out.println(universityAgent.getStudentList().get(i).getId());
+            System.out.println(universityAgent.getStudentList().get(i).getName());
+            System.out.println(universityAgent.getStudentList().get(i).getUniversity());
+        }
+        System.out.println("-------------------------");*/
     }
 }

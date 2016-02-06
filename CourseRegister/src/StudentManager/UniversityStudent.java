@@ -5,10 +5,15 @@
  */
 package StudentManager;
 
+import jade.core.AID;
+
 /**
  *
  * @author hunglv
  */
-public class UniversityManagement {
+public class UniversityStudent {
+    private String studentName;
+    private AID[] sellerAgents;
+    
     
 }

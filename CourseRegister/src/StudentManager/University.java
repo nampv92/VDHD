@@ -6,6 +6,14 @@
 package StudentManager;
 
 import jade.core.Agent;
+import jade.core.behaviours.Behaviour;
+import jade.core.behaviours.CyclicBehaviour;
+import jade.domain.DFService;
+import jade.domain.FIPAAgentManagement.DFAgentDescription;
+import jade.domain.FIPAAgentManagement.ServiceDescription;
+import jade.domain.FIPAException;
+import jade.lang.acl.ACLMessage;
+import jade.lang.acl.MessageTemplate;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,6 +32,21 @@ public class University extends Agent {
         studentList = new ArrayList<>();
         mangerGui = new Manager(this);
         mangerGui.setVisible(true);
+        
+        /* Registers universities to yellow page */
+        DFAgentDescription yellow_page = new DFAgentDescription();
+        yellow_page.setName(getAID());
+        ServiceDescription service = new ServiceDescription();
+        service.setName("University Management");
+        service.setType("UniversityMng");
+        yellow_page.addServices(service);
+        
+        try {
+            DFService.register(this, yellow_page);
+        }
+        catch (FIPAException e) {
+            System.out.println("Do not allow this agent registers to yellow page.");
+        }
         
         /**
          * Gets all data from database. Each database contain info with an university
@@ -134,14 +157,9 @@ public class University extends Agent {
             System.out.println("Can not create statement object");
             e.printStackTrace();
         }
-        /*
-        System.out.println("-------------------------");
-        for(int i = 0; i < studentList.size(); i ++) {
-            System.out.println(studentList.get(i).getId());
-            System.out.println(studentList.get(i).getName());
-            System.out.println(studentList.get(i).getUniversity());
-        }
-        System.out.println("-------------------------");*/
+        
+        // Add the behaviour for request from user
+	addBehaviour(new OfferRequestsServer());
     }
     
     public void setStudentList(ArrayList<Student> student_list) {
@@ -150,5 +168,27 @@ public class University extends Agent {
     
     public ArrayList<Student> getStudentList() {
         return this.studentList;
+    }
+
+    private static class OfferRequestsServer extends CyclicBehaviour {
+
+        public OfferRequestsServer() {
+        }
+
+        @Override
+        public void action() {
+            MessageTemplate message_temp = MessageTemplate.MatchPerformative(ACLMessage.CFP);
+            ACLMessage msg = myAgent.receive(message_temp);
+            
+            if(msg != null) {
+                String msg_content = msg.getContent();
+		ACLMessage reply = msg.createReply();
+                
+                
+            }
+            else {
+                block();
+            }
+        }
     }
 }
