@@ -6,7 +6,6 @@
 package StudentManager;
 
 import jade.core.Agent;
-import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -65,91 +64,88 @@ public class University extends Agent {
 
         try {
             Statement stmt = connection.createStatement();
-            
-            if(connection != null) {
-                if (this.getLocalName().compareTo("UET") == 0) {
-                    System.out.println("Agent UET");
-                    sql = "select * from student_uet";
-                    result = jdbc.getResult(stmt, sql);
+            if (this.getLocalName().compareTo("UET") == 0) {
+                System.out.println("Agent UET");
+                sql = "select * from student_uet";
+                result = jdbc.getResult(stmt, sql);
                     
-                    if(result != null) {
-                        while(result.next()){
-                            //Retrieve by column name
-                            String id  = result.getString("id");
-                            String student_name = result.getString("student_name");
-                            String university = result.getString("university");
+                if(result != null) {
+                    while(result.next()){
+                        //Retrieve by column name
+                        String id  = result.getString("id");
+                        String student_name = result.getString("student_name");
+                        String university = result.getString("university");
 
-                            /* Adds new student in list */
-                            tmp_student = new Student(id, student_name, university);
-                            studentList.add(tmp_student);
-                        }
-                    }
-                    else {
-                        System.out.println("This university is empty.");
-                    }
-                }
-                else if (this.getLocalName().compareTo("ULIS") == 0){
-                    System.out.println("Agent ULIS");
-                    sql = "select * from student_ulis";
-                    result = jdbc.getResult(stmt, sql);
-                    
-                    if(result != null) {
-                        while(result.next()){
-                            //Retrieve by column name
-                            String id  = result.getString("id");
-                            String student_name = result.getString("student_name");
-                            String university = result.getString("university");
-
-                            /* Adds new student in list */
-                            tmp_student = new Student(id, student_name, university);
-                            studentList.add(tmp_student);
-                        }
-                    }
-                    else {
-                        System.out.println("This university is empty.");
-                    }
-                }
-                else if (this.getLocalName().compareTo("UEB") == 0){
-                    System.out.println("Agent UEB");
-                    sql = "select * from student_ueb";
-                    result = jdbc.getResult(stmt, sql);
-                    
-                    if(result != null) {
-                        while(result.next()){
-                            //Retrieve by column name
-                            String id  = result.getString("id");
-                            String student_name = result.getString("student_name");
-                            String university = result.getString("university");
-
-                            /* Adds new student in list */
-                            tmp_student = new Student(id, student_name, university);
-                            studentList.add(tmp_student);
-                        }
-                    }
-                    else {
-                        System.out.println("This university is empty.");
+                        /* Adds new student in list */
+                        tmp_student = new Student(id, student_name, university);
+                        studentList.add(tmp_student);
                     }
                 }
                 else {
-                    System.out.println("Agent HUS");
-                    sql = "select * from student_hus";
-                    result = jdbc.getResult(stmt, sql);
+                    System.out.println("This university is empty.");
+                }
+            }
+            else if (this.getLocalName().compareTo("ULIS") == 0){
+                System.out.println("Agent ULIS");
+                sql = "select * from student_ulis";
+                result = jdbc.getResult(stmt, sql);
                     
-                    if(result != null) {
-                        while(result.next()){
-                            //Retrieve by column name
-                            String id  = result.getString("id");
-                            String student_name = result.getString("student_name");
-                            String university = result.getString("university");
+                if(result != null) {
+                    while(result.next()){
+                        //Retrieve by column name
+                        String id  = result.getString("id");
+                        String student_name = result.getString("student_name");
+                        String university = result.getString("university");
 
-                            /* Adds new student in list */
-                            tmp_student = new Student(id, student_name, university);
-                            studentList.add(tmp_student);
-                        }
+                        /* Adds new student in list */
+                        tmp_student = new Student(id, student_name, university);
+                        studentList.add(tmp_student);
                     }
-                    else {
-                        System.out.println("This university is empty.");
+                }
+                else {
+                    System.out.println("This university is empty.");
+                }
+            }
+            else if (this.getLocalName().compareTo("UEB") == 0){
+                System.out.println("Agent UEB");
+                sql = "select * from student_ueb";
+                result = jdbc.getResult(stmt, sql);
+                    
+                if(result != null) {
+                    while(result.next()){
+                        //Retrieve by column name
+                        String id  = result.getString("id");
+                        String student_name = result.getString("student_name");
+                        String university = result.getString("university");
+
+                        /* Adds new student in list */
+                        tmp_student = new Student(id, student_name, university);
+                        studentList.add(tmp_student);
                     }
+                }
+                else {
+                    System.out.println("This university is empty.");
+                }
+            }
+            else {
+                System.out.println("Agent HUS");
+                sql = "select * from student_hus";
+                result = jdbc.getResult(stmt, sql);
+                    
+                if(result != null) {
+                    while(result.next()){
+                        //Retrieve by column name
+                        String id  = result.getString("id");
+                        String student_name = result.getString("student_name");
+                        String university = result.getString("university");
+
+                        /* Adds new student in list */
+                        tmp_student = new Student(id, student_name, university);
+                        studentList.add(tmp_student);
+                    }
+                }
+                else {
+                    System.out.println("This university is empty.");
                 }
             }
         }
@@ -159,35 +155,32 @@ public class University extends Agent {
         }
         
         // Add the behaviour for request from user
-	addBehaviour(new OfferRequestsServer());
-    }
-    
-    public void setStudentList(ArrayList<Student> student_list) {
-        this.studentList = student_list;
+	addBehaviour(new FindStudentBehaviour());
     }
     
     public ArrayList<Student> getStudentList() {
         return this.studentList;
     }
 
-    private static class OfferRequestsServer extends CyclicBehaviour {
-
-        public OfferRequestsServer() {
+    private class FindStudentBehaviour extends CyclicBehaviour {
+        //private static int finish;
+        
+        public FindStudentBehaviour() {
         }
 
         @Override
         public void action() {
-            MessageTemplate message_temp = MessageTemplate.MatchPerformative(ACLMessage.CFP);
-            ACLMessage msg = myAgent.receive(message_temp);
+            MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
+            ACLMessage msg = myAgent.receive(mt);
             
             if(msg != null) {
-                String msg_content = msg.getContent();
-		ACLMessage reply = msg.createReply();
-                
-                
-            }
-            else {
-                block();
+                // Agent finds student in list
+                for(int i = 0; i < studentList.size(); i ++) {
+                    if(msg.getContent().compareTo(studentList.get(i).getName()) == 0) {
+                        System.out.println("Agent " + myAgent.getLocalName() + " found.");
+                        System.out.println("Name: " + studentList.get(i).getName() + ", id: " + studentList.get(i).getId() + ", universiy: " + studentList.get(i).getUniversity());
+                    }
+                }
             }
         }
     }
