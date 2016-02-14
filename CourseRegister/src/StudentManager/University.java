@@ -170,16 +170,23 @@ public class University extends Agent {
 
         @Override
         public void action() {
+            String result = "";
             MessageTemplate mt = MessageTemplate.MatchPerformative(ACLMessage.ACCEPT_PROPOSAL);
             ACLMessage msg = myAgent.receive(mt);
             
             if(msg != null) {
                 // Agent finds student in list
-                for(int i = 0; i < studentList.size(); i ++) {
-                    if(msg.getContent().compareTo(studentList.get(i).getName()) == 0) {
-                        System.out.println("Agent " + myAgent.getLocalName() + " found.");
-                        System.out.println("Name: " + studentList.get(i).getName() + ", id: " + studentList.get(i).getId() + ", universiy: " + studentList.get(i).getUniversity());
+                for (Student student : studentList) {
+                    if (msg.getContent().compareTo(student.getName()) == 0) {
+                        result += "ID: " + student.getId() + ", name: " + student.getName() + ", universiy: " + student.getUniversity() + "\n";
                     }
+                }
+                if(result.compareTo("") != 0) {
+                    System.out.println("Agent " + myAgent.getLocalName() + " found: ");
+                    System.out.println(result);
+                }
+                else {
+                    System.out.println("Agent " + myAgent.getLocalName() + " not found.");
                 }
             }
         }
