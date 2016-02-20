@@ -65,19 +65,20 @@ public class University extends Agent {
         try {
             Statement stmt = connection.createStatement();
             if (this.getLocalName().compareTo("UET") == 0) {
-                System.out.println("Agent UET");
+                System.out.println("Start UET agent");
                 sql = "select * from student_uet";
                 result = jdbc.getResult(stmt, sql);
                     
                 if(result != null) {
                     while(result.next()){
                         //Retrieve by column name
-                        String id  = result.getString("id");
+                        String studentID  = result.getString("studentID");
                         String student_name = result.getString("student_name");
                         String university = result.getString("university");
+                        float mark = result.getFloat("mark");
 
                         /* Adds new student in list */
-                        tmp_student = new Student(id, student_name, university);
+                        tmp_student = new Student(studentID, student_name, university, mark);
                         studentList.add(tmp_student);
                     }
                 }
@@ -86,19 +87,20 @@ public class University extends Agent {
                 }
             }
             else if (this.getLocalName().compareTo("ULIS") == 0){
-                System.out.println("Agent ULIS");
+                System.out.println("Start ULIS agent");
                 sql = "select * from student_ulis";
                 result = jdbc.getResult(stmt, sql);
                     
                 if(result != null) {
                     while(result.next()){
                         //Retrieve by column name
-                        String id  = result.getString("id");
+                        String studentID  = result.getString("studentID");
                         String student_name = result.getString("student_name");
                         String university = result.getString("university");
+                        float mark = result.getFloat("mark");
 
                         /* Adds new student in list */
-                        tmp_student = new Student(id, student_name, university);
+                        tmp_student = new Student(studentID, student_name, university, mark);
                         studentList.add(tmp_student);
                     }
                 }
@@ -107,19 +109,20 @@ public class University extends Agent {
                 }
             }
             else if (this.getLocalName().compareTo("UEB") == 0){
-                System.out.println("Agent UEB");
+                System.out.println("Start UEB agent");
                 sql = "select * from student_ueb";
                 result = jdbc.getResult(stmt, sql);
                     
                 if(result != null) {
                     while(result.next()){
                         //Retrieve by column name
-                        String id  = result.getString("id");
+                        String studentID  = result.getString("studentID");
                         String student_name = result.getString("student_name");
                         String university = result.getString("university");
+                        float mark = result.getFloat("mark");
 
                         /* Adds new student in list */
-                        tmp_student = new Student(id, student_name, university);
+                        tmp_student = new Student(studentID, student_name, university, mark);
                         studentList.add(tmp_student);
                     }
                 }
@@ -128,19 +131,20 @@ public class University extends Agent {
                 }
             }
             else {
-                System.out.println("Agent HUS");
+                System.out.println("Start HUS agent");
                 sql = "select * from student_hus";
                 result = jdbc.getResult(stmt, sql);
                     
                 if(result != null) {
                     while(result.next()){
                         //Retrieve by column name
-                        String id  = result.getString("id");
+                        String studentID  = result.getString("studentID");
                         String student_name = result.getString("student_name");
                         String university = result.getString("university");
+                        float mark = result.getFloat("mark");
 
                         /* Adds new student in list */
-                        tmp_student = new Student(id, student_name, university);
+                        tmp_student = new Student(studentID, student_name, university, mark);
                         studentList.add(tmp_student);
                     }
                 }
@@ -175,18 +179,36 @@ public class University extends Agent {
             ACLMessage msg = myAgent.receive(mt);
             
             if(msg != null) {
-                // Agent finds student in list
-                for (Student student : studentList) {
-                    if (msg.getContent().compareTo(student.getName()) == 0) {
-                        result += "ID: " + student.getId() + ", name: " + student.getName() + ", universiy: " + student.getUniversity() + "\n";
+                String []subMsg = msg.getContent().split(",");
+                if(subMsg.length == 1) {
+                    // Agent finds student in list
+                    for (Student student : studentList) {
+                        if (msg.getContent().compareTo(student.getName()) == 0) {
+                            result += "ID: " + student.getId() + ", name: " + student.getName() + ", universiy: " + student.getUniversity() + "\n";
+                        }
+                    }
+                    if(result.compareTo("") != 0) {
+                        System.out.println("Agent " + myAgent.getLocalName() + " found: ");
+                        System.out.println(result);
+                    }
+                    else {
+                        //System.out.println("Agent " + myAgent.getLocalName() + " not found.");
                     }
                 }
-                if(result.compareTo("") != 0) {
-                    System.out.println("Agent " + myAgent.getLocalName() + " found: ");
-                    System.out.println(result);
-                }
                 else {
-                    System.out.println("Agent " + myAgent.getLocalName() + " not found.");
+                    // Agent finds student in list
+                    for (Student student : studentList) {
+                        if ((subMsg[0].compareTo(student.getName()) == 0) && (subMsg[1].compareTo(student.getId())) == 0) {
+                            result += "ID: " + student.getId() + ", name: " + student.getName() + ", universiy: " + student.getUniversity() + "\n";
+                        }
+                    }
+                    if(result.compareTo("") != 0) {
+                        System.out.println("Agent " + myAgent.getLocalName() + " found: ");
+                        System.out.println(result);
+                    }
+                    else {
+                        System.out.println("Agent " + myAgent.getLocalName() + " not found.");
+                    }
                 }
             }
         }

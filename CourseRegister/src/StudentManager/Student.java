@@ -13,18 +13,21 @@ public class Student {
     private String name;
     private String id;
     private String university;
+    private float mark;
     
     /* Override default constructor */
     public Student() {
         name = "";
         id = "";
         university = "";
+        mark = 0;
     }
     
-    public Student(String id, String name, String university) {
+    public Student(String id, String name, String university, float mark) {
         this.name = name;
-        this.id    = id;
+        this.id = id;
         this.university = university;
+        this.mark = mark;
     }
     
     public void setName(String name) {
@@ -49,5 +52,13 @@ public class Student {
     
     public String getUniversity() {
         return university;
+    }
+    
+    public void setMark(float mark) {
+        this.mark = mark;
+    }
+    
+    public float getMark() {
+        return mark;
     }
 }

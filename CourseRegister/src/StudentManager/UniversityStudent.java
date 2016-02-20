@@ -20,16 +20,19 @@ import jade.lang.acl.ACLMessage;
  * @author hunglv
  */
 public class UniversityStudent extends Agent {
-
-    private String studentName;
+    private String studentID = null;
+    private String studentName = null;
     private AID[] universityAgents;
 
     public void setup() {
         Object[] args = getArguments();
-
         if (args != null && args.length > 0) { /* List of searchers */
-
-            studentName = args[0].toString();
+            studentName = args[0].toString().trim();
+            
+            // Check wheather user want to find ID or not
+            if(args.length >= 2)
+                studentID = args[1].toString().trim();
+            
             addBehaviour(new TickerBehaviour(this, 5000) {
                 protected void onTick() {
                     // Update the list of seller agents
@@ -55,8 +58,11 @@ public class UniversityStudent extends Agent {
                     for (int i = 0; i < universityAgents.length; ++i) {
                         cfp.addReceiver(universityAgents[i]);
                     }
-
-                    cfp.setContent(studentName);
+                    
+                    if(studentID != null)
+                        cfp.setContent(studentName + "," + studentID);
+                    else
+                        cfp.setContent(studentName);
                     myAgent.send(cfp);
                 }
             });
