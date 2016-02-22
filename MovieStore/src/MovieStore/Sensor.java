@@ -6,7 +6,6 @@
 package MovieStore;
 
 import jade.core.Agent;
-import jade.core.behaviours.Behaviour;
 import jade.core.behaviours.TickerBehaviour;
 import java.util.Random;
 
@@ -17,9 +16,13 @@ import java.util.Random;
  * @author hunglv
  */
 public class Sensor extends Agent {
+    public int MAX = 40;
+    public int MIN = 0;
     Random rand;
-    float temperature; // The temperature in room
-    float time;        // The time auto generate to power on device
+    double temperature; // The temperature in room
+    int hour;        // The current hour
+    int min;         // The current minute
+    int second;      // The curren second
     
     
 
@@ -29,7 +32,8 @@ public class Sensor extends Agent {
             
             @Override
             protected void onTick() {
-                temperature = rand.nextFloat(40.0) + 1;
+                temperature = (rand.nextFloat() * MAX) + MIN;
+;
             }
         });
     }
