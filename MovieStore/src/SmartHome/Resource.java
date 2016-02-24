@@ -1,4 +1,4 @@
-package MovieStore;
+package SmartHome;
 
 import java.io.IOException;
 import java.io.InputStream;
