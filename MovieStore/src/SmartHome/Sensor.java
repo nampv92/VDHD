@@ -13,6 +13,7 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
+import java.util.Calendar;
 import java.util.Random;
 
 /**
@@ -68,6 +69,7 @@ public class Sensor extends Agent {
                 hour = rand.nextInt(24);
                 min = rand.nextInt(60);
                 second = rand.nextInt(60);
+
                 cfp.setContent(temperature + "," + hour + "," + min + "," + second);
                 myAgent.send(cfp);
             }

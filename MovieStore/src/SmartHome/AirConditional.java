@@ -19,6 +19,9 @@ import jade.lang.acl.MessageTemplate;
  * @author hunglv
  */
 public class AirConditional extends Agent {
+    int state;
+    int level;
+    
     protected void setup() {
         DFAgentDescription yellow_page = new DFAgentDescription();
         yellow_page.setName(getAID());
@@ -49,8 +52,15 @@ public class AirConditional extends Agent {
             ACLMessage msg = myAgent.receive(mt);
             if(msg != null) {
                 String envInfo[] = msg.getContent().split(",");
-                for(String s: envInfo)
-                    System.out.println(s);
+                if(Integer.parseInt(envInfo[0]) >= 32 || Integer.parseInt(envInfo[0]) <= 10) {
+                    state = 1;
+                    if(Integer.parseInt(envInfo[1]) >= 17 && Integer.parseInt(envInfo[1]) <= 20) {
+                        level = 1;
+                    }
+                    else if(Integer.parseInt(envInfo[1]) >= 17 && Integer.parseInt(envInfo[1]) <= 20) {
+                        
+                    }
+                }
             }
         }
     }
