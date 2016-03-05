@@ -22,8 +22,7 @@ public class HelloWorld extends Agent {
             System.out.println("Args is: " + args[0]);
         }
         else {
-            System.out.println("Nothing");
-                    
+            System.out.println("Nothing");    
         }
     }
 }

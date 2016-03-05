@@ -5,6 +5,7 @@
  */
 package SmartHome;
 
+import jade.core.AID;
 import jade.core.Agent;
 import jade.core.behaviours.CyclicBehaviour;
 import jade.domain.DFService;
@@ -18,9 +19,11 @@ import jade.lang.acl.MessageTemplate;
  *
  * @author hunglv
  */
-public class AirConditional extends Agent {
+public class Refrigerator extends Agent {
     int state;
     int level;
+    private AID[] managerAgent;
+    DFAgentDescription template;
     
     protected void setup() {
         DFAgentDescription yellow_page = new DFAgentDescription();
@@ -52,14 +55,37 @@ public class AirConditional extends Agent {
             ACLMessage msg = myAgent.receive(mt);
             if(msg != null) {
                 String envInfo[] = msg.getContent().split(",");
-                if(Integer.parseInt(envInfo[0]) >= 32 || Integer.parseInt(envInfo[0]) <= 10) {
+                if(Boolean.parseBoolean(envInfo[1]) == true) {
                     state = 1;
-                    if(Integer.parseInt(envInfo[1]) >= 17 && Integer.parseInt(envInfo[1]) <= 20) {
+                    System.out.println("empty = " + envInfo[1]);
+                    try {
+                        DFAgentDescription[] result = DFService.search(myAgent, template);
+                        managerAgent = new AID[result.length];
+
+                        // Assign name for agent receives message
+                        for (int i = 0; i < managerAgent.length; i++) {
+                            if(result[i].getName().toString().contains("manager"))
+                                managerAgent[i] = result[i].getName();
+                        }
+                    } catch (FIPAException fe) {
+                        fe.printStackTrace();
+                    }
+
+                    ACLMessage cfp = new ACLMessage(ACLMessage.CONFIRM);
+
+                    // Add list agent receiver request
+                    for (int i = 0; i < managerAgent.length; ++i) {
+                        cfp.addReceiver(managerAgent[i]);
+                    }
+                    
+                    cfp.setContent(state + "");
+                    myAgent.send(cfp);
+                    /*if(Integer.parseInt(envInfo[1]) >= 17 && Integer.parseInt(envInfo[1]) <= 20) {
                         level = 1;
                     }
                     else if(Integer.parseInt(envInfo[1]) >= 17 && Integer.parseInt(envInfo[1]) <= 20) {
                         
-                    }
+                    }*/
                 }
             }
         }
