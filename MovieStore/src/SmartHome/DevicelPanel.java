@@ -6,11 +6,10 @@
 package SmartHome;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.text.StyleConstants;
 
 /**
  *
@@ -22,13 +21,23 @@ public class DevicelPanel extends JPanel {
     public DevicelPanel(ImagePanel imgDevice, ImagePanel imgState) {
         this.imgDevice = imgDevice;
         this.imgState = imgState;
-        createLayout();
+        createLayout(imgDevice, imgState);
     }
     
-    private void createLayout() {
-        setLayout(new GridLayout(2, 1));
-        add(imgDevice, BorderLayout.CENTER);
-        add(imgState, BorderLayout.CENTER);
+    public DevicelPanel(ImagePanel imgState) {
+        this.imgState = imgState;
+        createLayout(imgState);
+    }
+    
+    private void createLayout(ImagePanel imgDevice, ImagePanel imgState) {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(imgDevice);
+        add(imgState);
+    }
+    
+    private void createLayout(ImagePanel imgDevice) {
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        add(imgDevice);
     }
     
     public void setState(ImagePanel imgState) {

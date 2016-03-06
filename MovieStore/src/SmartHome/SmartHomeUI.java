@@ -16,7 +16,7 @@ import javax.swing.JFrame;
  * @author hunglv
  */
 public class SmartHomeUI extends JFrame {
-    // List of devices
+    // List of image devices
     ImagePanel airImage;
     ImagePanel airOn;
     ImagePanel airOff;
@@ -25,29 +25,148 @@ public class SmartHomeUI extends JFrame {
     ImagePanel reOn;
     ImagePanel reOff;
     
+    ImagePanel fanImage;
+    ImagePanel fanOn;
+    ImagePanel fanOff;
+ 
+    ImagePanel lamImage;
+    ImagePanel lamOn;
+    ImagePanel lamOff;
+    
+    ImagePanel tvImage;
+    ImagePanel tvOn;
+    ImagePanel tvOff;
+    
+    ImagePanel washImage;
+    ImagePanel washOn;
+    ImagePanel washOff;
+    
     DevicelPanel airConditional;
     DevicelPanel reFrigarator;
+    DevicelPanel fan;
+    DevicelPanel lamp;
+    DevicelPanel television;
+    DevicelPanel washingmachine;
     
     public SmartHomeUI() {
         try {
+            // Air Conditional
             airImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\air.png")));
             airOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\on.png")));
             airOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\off.png")));
             
+            // Refrigerator
             refImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\ref.png")));
             reOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\on.png")));
             reOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\off.png")));
             
+            // Fan
+            fanImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\fan.png")));
+            fanOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\on.png")));
+            fanOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\off.png")));
+            
+            // Television
+            tvImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\television.png")));
+            tvOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\on.png")));
+            tvOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\off.png")));
+            
+             // Lamp
+            //lamImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\lamp_on.png")));
+            lamOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\lamp_on.png")));
+            lamOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\lamp_off.png")));
+            
+            // Washing machine
+            washImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\washingmachine.png")));
+            washOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\on.png")));
+            washOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\off.png")));
+            
+            fan = new DevicelPanel(fanImage, fanOff);
             airConditional = new DevicelPanel(airImage, airOff);
             reFrigarator = new DevicelPanel(refImage, reOff);
+            television = new DevicelPanel(tvImage, tvOff);
+            lamp = new DevicelPanel(lamOff);
+            washingmachine = new DevicelPanel(washImage, washOff);
             
-            setLayout(new GridLayout(1, 2));
+            setLayout(new GridLayout(2, 3));
             add(airConditional);
             add(reFrigarator);
+            add(fan);
+            add(television);
+            add(washingmachine);
+            add(lamp);
+
             setDefaultCloseOperation(EXIT_ON_CLOSE);
-            setSize(600, 800);
+            setLocationRelativeTo(null);
+            setSize(1000, 600);
+            
         } catch (IOException ex) {
             System.out.println("File not found.");
         }
+    }
+    
+    public void setAir(int state) {
+        if(state == 1) {
+            airConditional.revalidate();
+            airConditional.setState(airOn);
+        }
+        else {
+            airConditional.revalidate();
+            airConditional.setState(airOff);
+        }
+    }
+    
+    public void setRef(int state) {
+        if(state == 1) {
+            reFrigarator.revalidate();
+            reFrigarator.setState(reOn);
+        }
+        else {
+            reFrigarator.revalidate();
+            reFrigarator.setState(reOff);
+        }
+    }
+
+    void setLam(int state) {
+        if(state == 1) {
+            lamp.revalidate();
+            lamp.setState(lamOn);
+        }
+        else {
+            lamp.revalidate();
+            lamp.setState(lamOff);
+        }
+    }
+
+    void setFan(int state) {
+        if(state == 1) {
+            fan.revalidate();
+            fan.setState(fanOn);
+        }
+        else {
+            fan.revalidate();
+            fan.setState(fanOff);
+        }
+    }
+
+    void setWash(int state) {
+        if(state == 1) {
+            washingmachine.revalidate();
+            washingmachine.setState(washOn);
+        }
+        else {
+            washingmachine.revalidate();
+            washingmachine.setState(washOff);
+        }  
+    }
+
+    void setTV(int state) {
+        if(state == 1) {
+            television.revalidate();
+            television.setState(tvOn);
+        }
+        else {
+            television.revalidate();
+            television.setState(tvOff);
+        }      
     }
 }

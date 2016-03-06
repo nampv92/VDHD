@@ -13,7 +13,6 @@ import jade.domain.FIPAAgentManagement.DFAgentDescription;
 import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import jade.lang.acl.ACLMessage;
-import java.util.Calendar;
 import java.util.Random;
 
 /**
@@ -27,10 +26,12 @@ public class Sensor extends Agent {
     public int MIN = 0;
     Random rand;
     double temperature; // The temperature in room
-    boolean friEmpty;    // The status of Refrigerator
-    int hour;        // The current hour
-    int min;         // The current minute
-    int second;      // The curren second
+    boolean friEmpty;   // The status of refrigerator
+    boolean washEmpty;  // The status of refrigerator
+    
+    int hour;           // The current hour
+    int min;            // The current minute
+    int second;         // The curren second
     private AID[] deviceAgents;
     DFAgentDescription template;
 
@@ -66,14 +67,17 @@ public class Sensor extends Agent {
                 for (int i = 0; i < deviceAgents.length; ++i) {
                     cfp.addReceiver(deviceAgents[i]);
                 }
-                friEmpty = rand.nextBoolean();
                 temperature = (rand.nextFloat() * MAX) + MIN;
+                friEmpty = rand.nextBoolean();
+                washEmpty = rand.nextBoolean();
+                
                 temperature = (float) Math.round((temperature * 10 / 10));
                 hour = rand.nextInt(24);
                 min = rand.nextInt(60);
                 second = rand.nextInt(60);
 
-                cfp.setContent(temperature + "," + friEmpty + "," + hour + "," + min + "," + second);
+                cfp.setContent(temperature + "," + friEmpty + "," + washEmpty + "," 
+                        + hour + "," + min + "," + second);
                 myAgent.send(cfp);
             }
         });

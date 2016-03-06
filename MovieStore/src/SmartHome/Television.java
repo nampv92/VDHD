@@ -19,8 +19,7 @@ import jade.lang.acl.MessageTemplate;
  *
  * @author hunglv
  */
-public class Refrigerator extends Agent {
-
+public class Television extends Agent {
     int state;
     int level;
     private AID[] managerAgent;
@@ -55,12 +54,14 @@ public class Refrigerator extends Agent {
             ACLMessage msg = myAgent.receive(mt);
             if (msg != null) {
                 String envInfo[] = msg.getContent().split(",");
-                if (Boolean.parseBoolean(envInfo[1]) == true) {
+                if ((Integer.parseInt(envInfo[3]) >= 18 && Integer.parseInt(envInfo[4]) >= 30
+                        && Integer.parseInt(envInfo[3]) <= 22) || (Integer.parseInt(envInfo[3]) >= 6
+                        && Integer.parseInt(envInfo[4]) <= 7 && Integer.parseInt(envInfo[4]) >= 30)) {
                     state = 1;
-                } else {
+                }
+                else {
                     state = 0;
                 }
-
                 try {
                     DFAgentDescription[] result = DFService.search(myAgent, template);
                     managerAgent = new AID[result.length];
@@ -82,10 +83,9 @@ public class Refrigerator extends Agent {
                     cfp.addReceiver(managerAgent[i]);
                 }
 
-                cfp.setContent("R" + state);
+                cfp.setContent("T" + state);
                 myAgent.send(cfp);
             }
         }
     }
-
 }

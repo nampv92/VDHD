@@ -19,8 +19,9 @@ import jade.lang.acl.MessageTemplate;
  * @author hunglv
  */
 public class AgentManager extends Agent {
+    SmartHomeUI smartHome;
     protected void setup() {
-        SmartHomeUI smartHome = new SmartHomeUI();
+        smartHome = new SmartHomeUI();
         smartHome.setVisible(true);
         
         DFAgentDescription yellow_page = new DFAgentDescription();
@@ -51,7 +52,36 @@ public class AgentManager extends Agent {
                 ACLMessage msg = myAgent.receive(mt);
                 if(msg != null) {
                     String status = msg.getContent();
-                    System.out.println("status: " + status);
+                    char prex = status.charAt(0);
+                    int state = Integer.valueOf(status.charAt(1) + "");
+                    switch(prex) {
+                        case 'A':
+                            System.out.println(prex + state);
+                            smartHome.setAir(state);
+                            break;
+                        case 'R':
+                            System.out.println(prex + state);
+                            smartHome.setAir(state);
+                            break;
+                        case 'L':
+                            System.out.println(prex + state);
+                            smartHome.setLam(state);
+                            break;
+                        case 'F':
+                            System.out.println(prex + state);
+                            smartHome.setFan(state);
+                            break;
+                        case 'T':
+                            System.out.println(prex + state);
+                            smartHome.setTV(state);
+                            break;
+                        case 'W':
+                            System.out.println(prex + state);
+                            smartHome.setWash(state);
+                            break;
+                        default:
+                            break;
+                    }
                 }
             }
     }
