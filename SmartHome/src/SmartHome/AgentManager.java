@@ -56,27 +56,21 @@ public class AgentManager extends Agent {
                     int state = Integer.valueOf(status.charAt(1) + "");
                     switch(prex) {
                         case 'A':
-                            System.out.println(prex + state);
                             smartHome.setAir(state);
                             break;
                         case 'R':
-                            System.out.println(prex + state);
-                            smartHome.setAir(state);
+                            smartHome.setRef(state);
                             break;
                         case 'L':
-                            System.out.println(prex + state);
                             smartHome.setLam(state);
                             break;
                         case 'F':
-                            System.out.println(prex + state);
                             smartHome.setFan(state);
                             break;
                         case 'T':
-                            System.out.println(prex + state);
                             smartHome.setTV(state);
                             break;
                         case 'W':
-                            System.out.println(prex + state);
                             smartHome.setWash(state);
                             break;
                         default:
