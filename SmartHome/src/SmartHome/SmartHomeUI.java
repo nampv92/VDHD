@@ -6,6 +6,7 @@
 package SmartHome;
 
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
@@ -51,34 +52,33 @@ public class SmartHomeUI extends JFrame {
     public SmartHomeUI() {
         try {
             // Air Conditional
-            airImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\air.png")));
-            airOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\on.png")));
-            airOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\off.png")));
+            airImage = new ImagePanel(ImageIO.read(getClass().getResource("/image/air.png")));
+            airOn = new ImagePanel(ImageIO.read(getClass().getResource("/image/on.png")));
+            airOff = new ImagePanel(ImageIO.read(getClass().getResource("/image/off.png")));
             
             // Refrigerator
-            refImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\ref.png")));
-            reOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\on.png")));
-            reOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\off.png")));
+            refImage = new ImagePanel(ImageIO.read(getClass().getResource("/image/ref.png")));
+            reOn = new ImagePanel(ImageIO.read(getClass().getResource("/image/on.png")));
+            reOff = new ImagePanel(ImageIO.read(getClass().getResource("/image/off.png")));
             
             // Fan
-            fanImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\fan.png")));
-            fanOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\on.png")));
-            fanOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\off.png")));
+            fanImage = new ImagePanel(ImageIO.read(getClass().getResource("/image/fan.png")));
+            fanOn = new ImagePanel(ImageIO.read(getClass().getResource("/image/on.png")));
+            fanOff = new ImagePanel(ImageIO.read(getClass().getResource("/image/off.png")));
             
             // Television
-            tvImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\television.png")));
-            tvOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\on.png")));
-            tvOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\off.png")));
+            tvImage = new ImagePanel(ImageIO.read(getClass().getResource("/image/television.png")));
+            tvOn = new ImagePanel(ImageIO.read(getClass().getResource("/image/on.png")));
+            tvOff = new ImagePanel(ImageIO.read(getClass().getResource("/image/off.png")));
             
              // Lamp
-            //lamImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\lamp_on.png")));
-            lamOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\lamp_on.png")));
-            lamOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\lamp_off.png")));
+            lamOn = new ImagePanel(ImageIO.read(getClass().getResource("/image/lamp_on.png")));
+            lamOff = new ImagePanel(ImageIO.read(getClass().getResource("/image/lamp_off.png")));
             
             // Washing machine
-            washImage = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\washingmachine.png")));
-            washOn = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\on.png")));
-            washOff = new ImagePanel(ImageIO.read(new File("C:\\hunglv\\off.png")));
+            washImage = new ImagePanel(ImageIO.read(getClass().getResource("/image/washingmachine.png")));
+            washOn = new ImagePanel(ImageIO.read(getClass().getResource("/image/on.png")));
+            washOff = new ImagePanel(ImageIO.read(getClass().getResource("/image/off.png")));
             
             fan = new DevicelPanel(fanImage, fanOff);
             airConditional = new DevicelPanel(airImage, airOff);
@@ -97,7 +97,7 @@ public class SmartHomeUI extends JFrame {
 
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setLocationRelativeTo(null);
-            setSize(1000, 600);
+            setSize(1000, 625);
             
         } catch (IOException ex) {
             System.out.println("File not found.");
