@@ -52,6 +52,7 @@ public class AgentManager extends Agent {
                 ACLMessage msg = myAgent.receive(mt);
                 if(msg != null) {
                     String status = msg.getContent();
+                    System.out.println(status);
                     char prex = status.charAt(0);
                     int state = Integer.valueOf(status.charAt(1) + "");
                     switch(prex) {
