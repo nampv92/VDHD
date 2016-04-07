@@ -56,7 +56,7 @@ public class Television extends Agent {
                 String envInfo[] = msg.getContent().split(",");
                 if ((Integer.parseInt(envInfo[3]) >= 18 && Integer.parseInt(envInfo[4]) >= 30
                         && Integer.parseInt(envInfo[3]) <= 22) || (Integer.parseInt(envInfo[3]) >= 6
-                        && Integer.parseInt(envInfo[4]) <= 7 && Integer.parseInt(envInfo[4]) >= 30)) {
+                        && Integer.parseInt(envInfo[3]) <= 7)) {
                     state = 1;
                 }
                 else {
