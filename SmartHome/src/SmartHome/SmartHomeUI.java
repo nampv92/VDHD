@@ -97,6 +97,7 @@ public class SmartHomeUI extends JFrame {
 
             setDefaultCloseOperation(EXIT_ON_CLOSE);
             setLocationRelativeTo(null);
+            setTitle("Minh Tâm");
             setSize(1000, 625);
             
         } catch (IOException ex) {
